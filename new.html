@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aya's Little Kitchen</title>
+
+    <!-- Cute Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <style>
+        /* RESET */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #ffe4f3;
+            scroll-behavior: smooth;
+            font-family: "Poppins", sans-serif;
+        }
+
+        /* Fade In */
+        .fade-in {
+            opacity: 0;
+            animation: fadeIn 1.2s ease forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Floating Glitter Animation */
+        @keyframes glitterFloat {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0.7; }
+            50% { transform: translateY(-20px) rotate(20deg); opacity: 1; }
+            100% { transform: translateY(0) rotate(0deg); opacity: 0.7; }
+        }
+
+        .glitter {
+            width: 140px;
+            position: absolute;
+            animation: glitterFloat 3s ease-in-out infinite;
+            pointer-events: none;
+        }
+        .g1 { top: 20%; left: 12%; animation-duration: 3.5s; }
+        .g2 { top: 55%; left: 80%; animation-duration: 4s; }
+        .g3 { top: 70%; left: 25%; animation-duration: 4.5s; }
+
+        /* NAVBAR */
+        nav {
+            width: 100%;
+            background: #ff9bcc;
+            padding: 15px 30px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            box-shadow: 0 0 15px #ff8bd670;
+        }
+
+        nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav h1 {
+            font-size: 24px;
+            font-family: "Fredoka One", cursive;
+            color: white;
+            text-shadow: 0 0 10px white;
+        }
+
+        nav ul {
+            display: flex;
+            gap: 20px;
+            list-style: none;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: white;
+            transition: 0.3s;
+            font-size: 16px;
+        }
+
+        nav ul li a:hover {
+            text-shadow: 0 0 10px white;
+        }
+
+        section {
+            padding: 120px 30px 80px;
+        }
+
+        /* DIFFERENT SECTION TONES */
+        #home { background: linear-gradient(#ffd6ec, #ffe8f6); }
+        #gallery { background: linear-gradient(#ffeefe, #ffd8f0); }
+        #review { background: linear-gradient(#ffd2ec, #ffc4e1); }
+
+        h2 {
+            text-align: center;
+            font-size: 32px;
+            font-family: "Fredoka One";
+            color: #ff3d9d;
+            text-shadow: 0 0 10px #ff89c7;
+            margin-bottom: 35px;
+        }
+
+        /* HOME LAYOUT — aesthetic */
+        #home .home-content {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 40px;
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        #home .home-photo {
+            flex: 1 1 350px;
+            text-align: center;
+        }
+        #home .home-photo img {
+            width: 85%;
+            max-width: 350px;
+            border-radius: 20px;
+            box-shadow: 0 0 25px #ff7fc870;
+        }
+
+        #home .home-text {
+            flex: 1 1 350px;
+            padding: 10px;
+        }
+        #home h3 {
+            font-family: "Pacifico", cursive;
+            color: #ff2d8b;
+            font-size: 40px;
+            margin-bottom: 20px, 10px;
+            text-shadow: 0 0 10px #ff9ad8;
+        }
+        #home p {
+            font-size: 17px;
+            color: #ff4ea4;
+            background: #ffe3f5aa;
+            padding: 15px 20px;
+            border-radius: 12px;
+            box-shadow: 0 0 10px #ffb5df80;
+            backdrop-filter: blur(3px);
+        }
+
+        /* GALLERY */
+        .gallery {
+            display: grid;
+            gap: 20px;
+            grid-template-columns: repeat(2, 1fr);
+            max-width: 900px;
+            margin: auto;
+        }
+
+        .food-box {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            border-radius: 14px;
+            overflow: hidden;
+            cursor: pointer;
+            border: 3px solid #ff94d1;
+            box-shadow: 0 0 15px #ff4ea4a9;
+            transition: 0.25s;
+        }
+
+        .food-box:hover {
+            transform: scale(1.06);
+            box-shadow: 0 0 25px #ff2d8b;
+            border-color: #ff2d8b;
+        }
+
+        .food-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .food-text {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            padding: 12px;
+            background: rgba(255, 0, 120, 0.4);
+            color: white;
+            text-align: center;
+            font-size: 16px;
+            opacity: 0;
+            transition: 0.3s;
+            backdrop-filter: blur(3px);
+            text-shadow: 0 0 8px white;
+        }
+
+        .food-box:hover .food-text {
+            opacity: 1;
+        }
+
+        /* REVIEWS */
+        .review-container {
+            display: grid;
+            gap: 20px;
+            max-width: 1000px;
+            margin: auto;
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .review-box {
+            background: #ffcae9;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 0 12px #ff7dc4;
+            transition: 0.3s;
+            border: 2px solid #ff8ecf;
+        }
+
+        .review-box:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 0 20px #ff4ea4;
+        }
+
+        .review-name {
+            font-weight: bold;
+            font-size: 17px;
+            color: #ff2d8b;
+            margin-bottom: 5px;
+        }
+
+        .stars {
+            color: gold;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        @media (min-width: 900px) {
+            .review-container {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- FLOATING GLITTERS -->
+    <img src="glitter.png" class="glitter g1">
+    <img src="glitter.png" class="glitter g2">
+    <img src="glitter.png" class="glitter g3">
+
+    <!-- NAVBAR -->
+    <nav>
+        <div class="container">
+            <h1>Aya's Little Kitchen</h1>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#gallery">Food Gallery</a></li>
+                <li><a href="#review">Friend's Review</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- HOME -->
+    <section id="home" class="fade-in">
+        <div class="home-content">
+
+            <div class="home-photo fade-in">
+                <img src="ayaa.jpg">
+            </div>
+
+            <div class="home-text fade-in">
+                <h3>Welcome to Aya’s Little Kitchen ✨</h3>
+                <p>
+                    A warm, sweet corner filled with homemade treats,  
+                    glittery vibes, and lovely flavors made with heart.  
+                    Enjoy the sweetness, the love, and the glow!  
+                </p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- GALLERY -->
+    <section id="gallery">
+        <h2 class="fade-in">Food Gallery</h2>
+
+        <div class="gallery fade-in">
+
+            <div class="food-box">
+                <img src="muffin chocolate.jpg">
+                <div class="food-text">Muffin Chocolate</div>
+            </div>
+
+            <div class="food-box">
+                <img src="lagsana.jpg">
+                <div class="food-text">Lagsana</div>
+            </div>
+
+            <div class="food-box">
+                <img src="choco cookie.jpg">
+                <div class="food-text">Choco Cookies</div>
+            </div>
+
+            <div class="food-box">
+                <img src="chicken mushroom sauce.jpg">
+                <div class="food-text">Chiken Mushroom Sauce</div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- REVIEWS -->
+    <section id="review">
+        <h2 class="fade-in">Friend's Review</h2>
+
+        <div class="review-container fade-in">
+
+            <div class="review-box">
+                <div class="review-name">Nadia</div>
+                <div class="stars">★★★★★</div>
+                Enak banget! lembut dan wangi.
+            </div>
+
+            <div class="review-box">
+                <div class="review-name">Mila</div>
+                <div class="stars">★★★★★</div>
+                Manisnya pas, teksturnya perfect.
+            </div>
+
+            <div class="review-box">
+                <div class="review-name">Onca</div>
+                <div class="stars">★★★★☆</div>
+                Enak banget!
+            </div>
+
+            <div class="review-box">
+                <div class="review-name">Naila</div>
+                <div class="stars">★★★★★</div>
+                Aesthetic & enak.
+            </div>
+
+            <div class="review-box">
+                <div class="review-name">Hilya</div>
+                <div class="stars">★★★★★</div>
+                Favoritku banget, rekomen!
+            </div>
+
+            <div class="review-box">
+                <div class="review-name">Indri</div>
+                <div class="stars">★★★★☆</div>
+                Enak, cuma mau versi lebih creamy.
+            </div>
+
+        </div>
+    </section>
+
+</body>
+</html>
